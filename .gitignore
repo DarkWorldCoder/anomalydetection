@@ -1,0 +1,10 @@
+# Backend virtual environment
+backend/.venv/
+
+# Python cache
+backend/__pycache__/
+backend/**/*.pyc
+backend/**/*.pyo
+backend/**/*.pyd
+backend/**/__pycache__/
+backend/backend.egg-info/
