@@ -6,7 +6,7 @@ from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 
 
 from app.db.base import Base
-from backend.app.db.timestamp import TimestampMixin
+from app.db.timestamp import TimestampMixin
 
 class User(Base,TimestampMixin):
     __tablename__ = "users"

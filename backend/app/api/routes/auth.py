@@ -4,16 +4,16 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession 
 from app.services.auth_service import get_user_by_email, authenticate_user
-from app.schemas.auth import RegisterRequest, LoginRequest, TokenResponse
-from app.core.security import hash_password, create_access_token
-from backend.app.db.session import get_db
+from app.schemas.auth import RegisterRequest, LoginRequest, TokenData
+from app.core.security import decode_access_token, hash_password, create_access_token
+from app.db.session import get_db
 from app.models.user import User
 from app.db.session import get_db
-from app.core.responses import success_response
+from app.core.responses import create_response
 from app.schemas.user import UserRead
 
 from app.api.deps import get_current_user,get_bearer_token
-from backend.app.models.revoked_token import RevokedToken
+from app.models.revoked_token import RevokedToken
 router = APIRouter(prefix="/auth",tags=["Auth"])
 
 @router.post("/register")
@@ -44,7 +44,7 @@ async def register_user(payload:RegisterRequest,db:AsyncSession = Depends(get_db
             detail="Failed to create user"
         )
     
-    return success_response(
+    return create_response(
         message="User registered successfully",
         data=UserRead.model_validate(user)
     )
@@ -61,9 +61,9 @@ async def login_user(payload:LoginRequest,db:AsyncSession = Depends(get_db)):
     
     access_token = create_access_token(subject=str(user.id))
     
-    return success_response(
+    return create_response(
         message="Login successful",
-        data=TokenResponse(
+        data=TokenData(
             access_token=access_token,
             token_type="bearer",
             user=UserRead.model_validate(user)
@@ -72,7 +72,7 @@ async def login_user(payload:LoginRequest,db:AsyncSession = Depends(get_db)):
     
 @router.get("/me")
 async def read_current_user(current_user: User = Depends(get_current_user)):
-    return success_response(
+    return create_response(
         message="Current user retrieved successfully",
         data=UserRead.model_validate(current_user)
     )
@@ -92,8 +92,12 @@ async def logout_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    revoked_token = RevokedToken(jti=jti, user_id=current_user.id)
+    revoked_token = RevokedToken(
+        jti=jti,
+        user_id=current_user.id,
+        expired_at=payload["exp"],
+    )
     db.add(revoked_token)
     await db.commit()
     
-    return success_response(message="Logout successful")
+    return create_response(message="Logout successful")

@@ -26,15 +26,15 @@ def create_access_token(subject: str ) -> str:
         "exp": expires_at.timestamp(),
         "jti": str(uuid4())
     }
-    token = jwt.encode(payload, settings.jwt_secret_key, algorithm=settings.jwt_algorithm)
+    token = jwt.encode(payload, settings.secret_key, algorithm=settings.algorithm)
     return token
 
 def decode_access_token(token: str) -> dict:
     try:
         payload = jwt.decode(
             token,
-            settings.jwt_secret_key,
-            algorithms=[settings.jwt_algorithm],
+            settings.secret_key,
+            algorithms=[settings.algorithm],
             options={'verify_exp': False}
         )
     except jwt.InvalidTokenError:
@@ -52,6 +52,6 @@ def decode_access_token(token: str) -> dict:
         )
     exp = payload["exp"]
     
-    if isinstance(exp, int):
+    if isinstance(exp, int | float):
         payload["exp"] = datetime.fromtimestamp(exp, tz=UTC)
     return payload

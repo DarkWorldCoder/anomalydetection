@@ -5,7 +5,7 @@ from app.core.config import settings
 
 engine = create_async_engine(
     settings.database_url,
-    pool_per_ping=True,
+    pool_pre_ping=True,
     poolclass=NullPool,  # Disable connection pooling for async engines
 )
 

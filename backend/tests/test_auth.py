@@ -22,7 +22,7 @@ async def cleanup_db():
 @pytest.fixture 
 async def async_client():
     transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://testserver") as client:
+    async with AsyncClient(transport=transport, base_url="http://testserver/api/v1") as client:
         yield client
         
 async def test_register_user(async_client:AsyncClient):
@@ -65,9 +65,9 @@ async def test_login_success(async_client:AsyncClient):
     response = await test_login_user(async_client)
     assert response.status_code == 200
     data = response.json()
-    assert "access_token" in data
-    assert data["token_type"] == "bearer"
-    assert data["user"]["email"] == "ayush@example.com"
+    assert "access_token" in data["data"]
+    assert data["data"]["token_type"] == "bearer"
+    assert data["data"]["user"]["email"] == "ayush@example.com"
 
 @pytest.mark.asyncio
 async def test_login_invalid_credentials(async_client:AsyncClient):
@@ -97,7 +97,7 @@ async def test_login_nonexistent_user(async_client:AsyncClient):
 async def test_read_current_user(async_client:AsyncClient):
     await test_register_user(async_client)
     login_response = await test_login_user(async_client)
-    token = login_response.json()["access_token"]
+    token = login_response.json()["data"]["access_token"]
     
     headers = {"Authorization": f"Bearer {token}"}
     response = await async_client.get("/auth/me", headers=headers)
@@ -108,7 +108,7 @@ async def test_read_current_user(async_client:AsyncClient):
     assert data["data"]["email"] == "ayush@example.com"
     
 @pytest.mark.asyncio
-async def tet_me_reject_invalid_token(async_client:AsyncClient):
+async def test_read_current_user_invalid_token(async_client:AsyncClient):
     response = await async_client.get("/auth/me")
     assert response.status_code == 401
 
@@ -116,7 +116,7 @@ async def tet_me_reject_invalid_token(async_client:AsyncClient):
 async def test_logout_user(async_client:AsyncClient):
     await test_register_user(async_client)
     login_response = await test_login_user(async_client)
-    token = login_response.json()["access_token"]
+    token = login_response.json()["data"]["access_token"]
     
     headers = {"Authorization": f"Bearer {token}"}
     logout_response = await async_client.post("/auth/logout", headers=headers)
