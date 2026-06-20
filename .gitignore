@@ -8,3 +8,4 @@ backend/**/*.pyo
 backend/**/*.pyd
 backend/**/__pycache__/
 backend/backend.egg-info/
+backend/.env
