@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.app.models.api_request import ApiRequest, Detection, DetectionBatch, ExtractedFeature
+from app.models.api_request import ApiRequest, Detection, DetectionBatch, ExtractedFeature
 from app.models.user import User
 from app.schemas.detection import TrafficRecord
 from app.services.detection_service import detect

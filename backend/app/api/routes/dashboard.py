@@ -8,7 +8,7 @@ from sqlalchemy.orm import selectinload
 from app.api.deps import get_current_user
 from app.core.responses import success_response
 from app.db.session import get_db
-from backend.app.models.api_request import ApiRequest, Detection
+from app.models.api_request import ApiRequest, Detection
 from app.models.user import User
 from app.services.request_service import history_item
 
