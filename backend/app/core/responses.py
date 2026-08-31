@@ -1,12 +1,15 @@
-from typing import Any 
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
+from typing import Any
 
-def create_response(message: str, data: Any = None, status_code: int = 200) -> JSONResponse:
-    response_content = {
+from fastapi.encoders import jsonable_encoder
+
+
+def success_response(message: str, data: Any | None = None) -> dict[str, Any]:
+    response: dict[str, Any] = {
+        "success": True,
         "message": message,
-        "success": status_code < 400
     }
+
     if data is not None:
-        response_content["data"] = jsonable_encoder(data)
-    return JSONResponse(content=jsonable_encoder(response_content), status_code=status_code)
+        response["data"] = jsonable_encoder(data)
+
+    return response

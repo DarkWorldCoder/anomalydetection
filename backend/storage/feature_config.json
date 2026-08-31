@@ -1,0 +1,114 @@
+{
+  "model_name": "IsolationForestScratch",
+  "dataset_name": "Dataset 3",
+  "feature_names": [
+    "url_length",
+    "endpoint_depth",
+    "query_param_count",
+    "body_length",
+    "header_count",
+    "cookie_length",
+    "user_agent_length",
+    "special_char_count",
+    "special_char_density",
+    "sql_pattern_score",
+    "xss_pattern_score",
+    "traversal_pattern_score",
+    "command_pattern_score",
+    "log_injection_pattern_score",
+    "log4j_pattern_score",
+    "cookie_injection_pattern_score",
+    "composite_anomaly_score",
+    "response_body_length",
+    "response_header_count",
+    "status_code",
+    "is_error_status"
+  ],
+  "min_values": [
+    27.0,
+    0.0,
+    0.0,
+    0.0,
+    5.0,
+    1.0,
+    22.0,
+    41.0,
+    0.12269938650306748,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    4.0,
+    2.0,
+    200.0,
+    0.0
+  ],
+  "max_values": [
+    177.0,
+    13.0,
+    3.0,
+    20.0,
+    14.0,
+    948.0,
+    121.0,
+    8752.0,
+    14.0032,
+    1.0,
+    1.0,
+    1.0,
+    0.0,
+    1.0,
+    1.0,
+    1.0,
+    2.0,
+    44793.0,
+    4.0,
+    500.0,
+    1.0
+  ],
+  "threshold": 0.5752,
+  "initial_threshold_from_contamination": 0.5752,
+  "contamination": 0.1115,
+  "n_trees": 300,
+  "sample_size": 512,
+  "model_file": "storage/isolation_forest.pkl",
+  "validation_metrics": {
+    "accuracy": 0.9787773933102653,
+    "precision": 0.9579045837231057,
+    "recall": 0.8469809760132341,
+    "f1_score": 0.8990342405618964,
+    "confusion_matrix": [
+      [
+        19167,
+        90
+      ],
+      [
+        370,
+        2048
+      ]
+    ],
+    "roc_auc": 0.8899434719429795
+  },
+  "test_metrics": {
+    "accuracy": 0.9797923875432526,
+    "precision": 0.9647721935180836,
+    "recall": 0.8498138187836161,
+    "f1_score": 0.9036515618125824,
+    "confusion_matrix": [
+      [
+        19183,
+        75
+      ],
+      [
+        363,
+        2054
+      ]
+    ],
+    "roc_auc": 0.8930831361079845
+  },
+  "pure_val_accuracy": 0.9027058823529411
+}

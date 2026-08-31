@@ -15,20 +15,6 @@ services:
       timeout: 5s
       retries: 10
 
-  api:
-    build: .
-    env_file:
-      - .env
-    environment:
-      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-api_anomaly}:${POSTGRES_PASSWORD:-api_anomaly_password}@postgres:5432/${POSTGRES_DB:-api_anomaly}
-    ports:
-      - "${API_PORT:-8000}:8000"
-    volumes:
-      - .:/app
-    depends_on:
-      postgres:
-        condition: service_healthy
-
 volumes:
   postgres_data:
 

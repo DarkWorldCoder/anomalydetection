@@ -9,3 +9,5 @@ backend/**/*.pyd
 backend/**/__pycache__/
 backend/backend.egg-info/
 backend/.env
+backend/.mypy_cache/
+backend/.env.*

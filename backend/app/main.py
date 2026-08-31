@@ -1,9 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.core.responses import create_response
+
+from app.api.routes import auth, dashboard, detection, model, requests
 from app.core.config import settings
-from app.api.routes import auth
-app = FastAPI(title=settings.app_name, version="1.0") 
+from app.core.responses import success_response
+
+app = FastAPI(title=settings.app_name, debug=settings.debug)
 
 app.add_middleware(
     CORSMiddleware,
@@ -13,12 +15,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(
-    prefix="/api/v1",
-    router=auth.router
-)
-    
+app.include_router(auth.router)
+app.include_router(detection.router)
+app.include_router(requests.router)
+app.include_router(dashboard.router)
+app.include_router(model.router)
+
 
 @app.get("/health")
 async def health_check():
-    return create_response(message="Backend is healthy")
+    return success_response(message="Backend is healthy", data={"status": "ok"})

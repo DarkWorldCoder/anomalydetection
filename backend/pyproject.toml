@@ -1,9 +1,10 @@
 [project]
-name = "backend"
+name = "api-anomaly-backend"
 version = "0.1.0"
+description = "FastAPI backend for API anomaly detection capstone"
 requires-python = ">=3.11"
 dependencies = [
-   "alembic>=1.13.2",
+    "alembic>=1.13.2",
     "asyncpg>=0.29.0",
     "email-validator>=2.2.0",
     "fastapi>=0.115.0",
@@ -21,11 +22,13 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-  "pytest",
-  "pytest-asyncio",
-  "httpx",
-  "ruff",
+    "pytest>=8.3.2",
+    "pytest-asyncio>=0.23.8",
 ]
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 include = ["app*"]
