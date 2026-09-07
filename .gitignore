@@ -11,3 +11,9 @@ backend/backend.egg-info/
 backend/.env
 backend/.mypy_cache/
 backend/.env.*
+
+# Infra deploy secrets/state
+infra/.env
+frontend/node_modules/
+infra/certbot-data/
+frontend/dist/

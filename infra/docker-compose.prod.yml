@@ -1,0 +1,75 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-api_anomaly}
+      POSTGRES_USER: ${POSTGRES_USER:-api_anomaly}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in infra/.env}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-api_anomaly} -d ${POSTGRES_DB:-api_anomaly}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      ENVIRONMENT: production
+      DEBUG: "false"
+      SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY in infra/.env}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-60}
+      ALGORITHM: ${ALGORITHM:-HS256}
+      BACKEND_CORS_ORIGINS: '["https://capstone.eterosoft.com"]'
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-api_anomaly}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-api_anomaly}
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: infra/frontend.Dockerfile
+      args:
+        VITE_API_URL: https://api-capstone.eterosoft.com
+    restart: "no"
+    volumes:
+      - frontend_dist:/site
+
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/api.conf:/etc/nginx/conf.d/api.conf:ro
+      - ./nginx/frontend.conf:/etc/nginx/conf.d/frontend.conf:ro
+      - ./certbot-data/conf:/etc/letsencrypt:ro
+      - ./certbot-data/www:/var/www/certbot:ro
+      - frontend_dist:/usr/share/nginx/html:ro
+    depends_on:
+      api:
+        condition: service_started
+      frontend:
+        condition: service_completed_successfully
+    command: >
+      sh -c "while :; do sleep 12h & wait $${!}; nginx -s reload; done & nginx -g 'daemon off;'"
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot-data/conf:/etc/letsencrypt
+      - ./certbot-data/www:/var/www/certbot
+    entrypoint: >
+      sh -c "trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot; sleep 12h & wait $${!}; done"
+
+volumes:
+  postgres_data:
+  frontend_dist:
