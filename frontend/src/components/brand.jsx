@@ -1,4 +1,4 @@
-import { ShieldCheck } from "lucide-react";
+import { Radar } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -11,7 +11,7 @@ export function Brand({ compact = false, sidebar = false, className }) {
           sidebar ? "bg-teal-500" : "bg-linear-to-br from-blue-500 to-blue-700",
         )}
       >
-        <ShieldCheck className="size-7" strokeWidth={2.2} aria-hidden="true" />
+        <Radar className="size-7" strokeWidth={2.2} aria-hidden="true" />
       </span>
       {!compact && (
         <span
