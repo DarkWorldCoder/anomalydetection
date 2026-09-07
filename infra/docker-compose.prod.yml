@@ -27,7 +27,8 @@ services:
       ALGORITHM: ${ALGORITHM:-HS256}
       BACKEND_CORS_ORIGINS: '["https://capstone.eterosoft.com"]'
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-api_anomaly}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-api_anomaly}
-    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    command: >
+      sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"
     depends_on:
       postgres:
         condition: service_healthy

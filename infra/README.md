@@ -66,6 +66,6 @@ infra/
   `docker-compose.prod.yml` (`BACKEND_CORS_ORIGINS`).
 - `certbot-data/` holds live certificates and must not be committed; it's in
   `.gitignore`.
-- Run backend DB migrations (`alembic upgrade head`) inside the `api`
-  container after first deploy:
-  `docker compose -f docker-compose.prod.yml exec api alembic upgrade head`
+- The `api` container runs `alembic upgrade head` automatically before
+  starting uvicorn on every start/restart, so migrations always apply
+  without a manual step.
