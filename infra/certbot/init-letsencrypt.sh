@@ -13,11 +13,22 @@ COMPOSE="docker compose -f docker-compose.prod.yml"
 DATA_PATH="./certbot-data"
 mkdir -p "$DATA_PATH/conf" "$DATA_PATH/www"
 
-if [ ! -e "$DATA_PATH/conf/options-ssl-nginx.conf" ]; then
-  curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf \
-    -o "$DATA_PATH/conf/options-ssl-nginx.conf"
-  curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem \
-    -o "$DATA_PATH/conf/ssl-dhparams.pem"
+if [ ! -s "$DATA_PATH/conf/options-ssl-nginx.conf" ]; then
+  cat > "$DATA_PATH/conf/options-ssl-nginx.conf" <<'EOF'
+ssl_session_cache shared:le_nissl:10m;
+ssl_session_timeout 1440m;
+ssl_session_tickets off;
+
+ssl_protocols TLSv1.2 TLSv1.3;
+ssl_prefer_server_ciphers off;
+
+ssl_ciphers "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384";
+EOF
+fi
+
+if [ ! -s "$DATA_PATH/conf/ssl-dhparams.pem" ]; then
+  docker run --rm -v "$(pwd)/$DATA_PATH/conf:/out" alpine/openssl \
+    dhparam -out /out/ssl-dhparams.pem 2048
 fi
 
 # Temporary self-signed certs so nginx can start with its ssl server blocks
