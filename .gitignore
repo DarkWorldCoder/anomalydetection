@@ -17,3 +17,4 @@ infra/.env
 frontend/node_modules/
 infra/certbot-data/
 frontend/dist/
+graphify-out

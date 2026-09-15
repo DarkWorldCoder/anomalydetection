@@ -47,15 +47,26 @@ done
 $COMPOSE up -d nginx
 
 for domain in "${DOMAINS[@]}"; do
+  if [ -s "$DATA_PATH/conf/live/$domain/fullchain.pem" ] \
+    && [ -s "$DATA_PATH/conf/live/$domain/privkey.pem" ] \
+    && [ -s "$DATA_PATH/conf/renewal/$domain.conf" ]; then
+    echo "Certificate already exists for $domain; skipping issuance."
+    continue
+  fi
+
   rm -rf "$DATA_PATH/conf/live/$domain" "$DATA_PATH/conf/archive/$domain" "$DATA_PATH/conf/renewal/$domain.conf"
-  $COMPOSE run --rm certbot certonly \
+  # The service normally runs an endless renewal loop, so bootstrap must
+  # override its entrypoint to execute this one-shot certbot command.
+  $COMPOSE run --rm --entrypoint certbot certbot certonly \
     --webroot -w /var/www/certbot \
     -d "$domain" \
+    --cert-name "$domain" \
     --email "$EMAIL" \
     --agree-tos \
-    --no-eff-email
+    --no-eff-email \
+    --non-interactive
 done
 
 $COMPOSE restart nginx
 
-echo "Done. Certs issued for: ${DOMAINS[*]}"
+echo "Done. Certificates are ready for: ${DOMAINS[*]}"
