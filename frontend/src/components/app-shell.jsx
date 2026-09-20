@@ -73,11 +73,11 @@ export function AppShell() {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="h-auto gap-2 px-2 py-1.5"
+                className="h-auto gap-2 rounded-full px-2 py-1.5"
                 aria-label="Open account menu"
               >
-                <Avatar className="size-9 bg-blue-700 text-white">
-                  <AvatarFallback className="bg-blue-700 text-xs text-white">
+                <Avatar className="size-9 border border-blue-800/10 bg-linear-to-br from-blue-600 to-blue-800 text-white shadow-sm">
+                  <AvatarFallback className="bg-transparent text-xs font-semibold text-white">
                     {initials(user?.full_name)}
                   </AvatarFallback>
                 </Avatar>
@@ -95,14 +95,20 @@ export function AppShell() {
                 />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuLabel className="font-normal">
-                <span className="block font-medium">{user?.full_name}</span>
-                <span className="block truncate text-xs text-muted-foreground">
-                  {user?.email}
-                </span>
-                <span className="mt-1 block text-xs capitalize text-muted-foreground">
-                  {user?.role}
+            <DropdownMenuContent align="end" className="w-64">
+              <DropdownMenuLabel className="flex items-center gap-3 py-2 font-normal">
+                <Avatar className="size-9 border border-blue-800/10 bg-linear-to-br from-blue-600 to-blue-800 text-white">
+                  <AvatarFallback className="bg-transparent text-xs font-semibold text-white">
+                    {initials(user?.full_name)}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="min-w-0">
+                  <span className="block truncate font-medium">
+                    {user?.full_name}
+                  </span>
+                  <span className="block truncate text-xs text-muted-foreground">
+                    {user?.email}
+                  </span>
                 </span>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />

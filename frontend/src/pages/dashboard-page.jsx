@@ -12,9 +12,9 @@ import {
 } from "recharts";
 import {
   ActivityIcon,
+  AlertTriangleIcon,
+  CheckCircle2Icon,
   DatabaseIcon,
-  ShieldAlertIcon,
-  ShieldCheckIcon,
 } from "lucide-react";
 import { apiRequest } from "@/lib/api";
 import {
@@ -109,13 +109,13 @@ export function DashboardPage() {
         <StatCard
           title="Suspicious Requests"
           value={stats.suspicious_requests}
-          icon={ShieldAlertIcon}
+          icon={AlertTriangleIcon}
           tone="danger"
         />
         <StatCard
           title="Benign Requests"
           value={benign}
-          icon={ShieldCheckIcon}
+          icon={CheckCircle2Icon}
           tone="success"
         />
         <StatCard

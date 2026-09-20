@@ -92,9 +92,6 @@ export function ModelPage() {
         <Card>
           <CardHeader>
             <CardTitle>Validation metrics</CardTitle>
-            <CardDescription>
-              Read-only metrics packaged with the trained model
-            </CardDescription>
           </CardHeader>
           <CardContent>
             <dl className="detail-list">

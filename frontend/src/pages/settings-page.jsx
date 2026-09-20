@@ -70,10 +70,6 @@ export function SettingsPage() {
               <dt>Role</dt>
               <dd>{user?.role}</dd>
             </div>
-            <div>
-              <dt>Account ID</dt>
-              <dd className="max-w-72 truncate">{user?.id}</dd>
-            </div>
           </dl>
           <form className="space-y-4 border-t pt-6" onSubmit={saveProfile}>
             <div>

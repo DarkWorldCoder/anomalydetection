@@ -1,4 +1,4 @@
-import { BrainCircuit, FileSearch, Gauge, Radar, Settings } from "lucide-react";
+import { Boxes, FileSearch, Gauge, Radar, Settings } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import { Brand } from "@/components/brand";
@@ -18,7 +18,7 @@ const navigation = [
   { label: "Dashboard", href: "/dashboard", icon: Gauge },
   { label: "Detect Requests", href: "/detect", icon: Radar },
   { label: "Request Logs", href: "/requests", icon: FileSearch },
-  { label: "Model Status", href: "/model", icon: BrainCircuit },
+  { label: "Model Status", href: "/model", icon: Boxes },
   { label: "Settings", href: "/settings", icon: Settings },
 ];
 
