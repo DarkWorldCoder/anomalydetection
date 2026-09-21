@@ -34,10 +34,7 @@ export function LoginPage() {
   }
 
   return (
-    <AuthLayout
-      title="Detect unusual traffic early."
-      description="Inspect API requests, understand anomaly signals, and review risky traffic from one focused workspace."
-    >
+    <AuthLayout>
       <LoginForm
         onSubmit={handleSubmit}
         error={error}

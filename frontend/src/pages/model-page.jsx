@@ -37,7 +37,7 @@ export function ModelPage() {
   return (
     <div className="page-stack">
       <Card className="gap-0 py-0">
-        <CardContent className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
+        <CardContent className="p-5">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground">
               Active scoring model
@@ -46,18 +46,10 @@ export function ModelPage() {
               {model.name}
             </h2>
           </div>
-          <div className="flex items-center gap-2 text-sm font-medium text-emerald-700">
-            <span
-              className="size-2 rounded-full bg-emerald-500"
-              aria-hidden="true"
-            />
-            Loaded and ready
-          </div>
         </CardContent>
       </Card>
       <Card className="gap-0 py-0">
-        <CardContent className="grid p-0 sm:grid-cols-2 xl:grid-cols-4">
-          <Metric label="Training dataset" value={model.dataset} />
+        <CardContent className="grid p-0 sm:grid-cols-3">
           <Metric label="Input features" value={model.feature_count} />
           <Metric label="Isolation trees" value={model.trees} />
           <Metric label="Decision threshold" value={model.threshold} />

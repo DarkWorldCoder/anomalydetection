@@ -55,10 +55,7 @@ export function RegisterPage() {
   }
 
   return (
-    <AuthLayout
-      title="Build a clearer view of API risk."
-      description="Create your workspace, upload request logs, and investigate suspicious behavior with the same detection model."
-    >
+    <AuthLayout>
       <form onSubmit={handleSubmit}>
         <FieldGroup>
           <div>

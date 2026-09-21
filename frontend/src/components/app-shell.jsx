@@ -72,21 +72,21 @@ export function AppShell() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
-                variant="ghost"
-                className="h-auto gap-2 rounded-full px-2 py-1.5"
+                variant="outline"
+                className="h-11 gap-2 rounded-lg bg-background px-2.5 shadow-none"
                 aria-label="Open account menu"
               >
-                <Avatar className="size-9 border border-blue-800/10 bg-linear-to-br from-blue-600 to-blue-800 text-white shadow-sm">
+                <Avatar className="size-8 bg-slate-900 text-white">
                   <AvatarFallback className="bg-transparent text-xs font-semibold text-white">
                     {initials(user?.full_name)}
                   </AvatarFallback>
                 </Avatar>
-                <span className="hidden max-w-36 text-left sm:block">
+                <span className="hidden max-w-44 text-left sm:block">
                   <span className="block truncate text-sm font-medium">
                     {user?.full_name}
                   </span>
-                  <span className="block truncate text-xs font-normal capitalize text-muted-foreground">
-                    {user?.role}
+                  <span className="block truncate text-xs font-normal text-muted-foreground">
+                    {user?.email}
                   </span>
                 </span>
                 <ChevronDown
@@ -95,27 +95,31 @@ export function AppShell() {
                 />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-64">
-              <DropdownMenuLabel className="flex items-center gap-3 py-2 font-normal">
-                <Avatar className="size-9 border border-blue-800/10 bg-linear-to-br from-blue-600 to-blue-800 text-white">
-                  <AvatarFallback className="bg-transparent text-xs font-semibold text-white">
-                    {initials(user?.full_name)}
-                  </AvatarFallback>
-                </Avatar>
-                <span className="min-w-0">
-                  <span className="block truncate font-medium">
-                    {user?.full_name}
-                  </span>
-                  <span className="block truncate text-xs text-muted-foreground">
-                    {user?.email}
-                  </span>
+            <DropdownMenuContent
+              align="end"
+              sideOffset={8}
+              className="w-72 rounded-xl p-2 shadow-lg"
+            >
+              <DropdownMenuLabel className="px-2 py-2 font-normal">
+                <span className="block truncate text-sm font-medium text-foreground">
+                  {user?.full_name}
+                </span>
+                <span className="mt-0.5 block truncate text-xs text-muted-foreground">
+                  {user?.email}
                 </span>
               </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onSelect={() => navigate("/settings")}>
+              <DropdownMenuSeparator className="my-1.5" />
+              <DropdownMenuItem
+                className="h-10 gap-3 px-2.5"
+                onSelect={() => navigate("/settings")}
+              >
                 <UserRound /> Account
               </DropdownMenuItem>
-              <DropdownMenuItem variant="destructive" onSelect={handleLogout}>
+              <DropdownMenuItem
+                variant="destructive"
+                className="h-10 gap-3 px-2.5"
+                onSelect={handleLogout}
+              >
                 <LogOut /> Sign out
               </DropdownMenuItem>
             </DropdownMenuContent>

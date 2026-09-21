@@ -65,12 +65,6 @@ export function SettingsPage() {
               <p className="text-sm text-muted-foreground">{user?.email}</p>
             </div>
           </div>
-          <dl className="detail-list">
-            <div>
-              <dt>Role</dt>
-              <dd>{user?.role}</dd>
-            </div>
-          </dl>
           <form className="space-y-4 border-t pt-6" onSubmit={saveProfile}>
             <div>
               <h3 className="font-medium">Edit profile</h3>
