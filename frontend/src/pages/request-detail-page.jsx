@@ -3,12 +3,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   ArrowLeft,
-  CheckCircle2,
   ChevronDown,
   ChevronUp,
-  CircleAlert,
   Clipboard,
-  ShieldAlert,
   Trash2,
 } from "lucide-react";
 import { apiRequest } from "@/lib/api";
@@ -195,32 +192,15 @@ export function RequestDetailPage() {
           Delete
         </Button>
       </div>
-      <Card
-        className={
-          detection.prediction === "Suspicious"
-            ? "border-destructive/30 bg-destructive/3"
-            : "border-success/30 bg-success/3"
-        }
-      >
+      <Card>
         <CardContent className="grid gap-6 p-6 md:grid-cols-2 xl:grid-cols-4">
-          <div className="flex items-center gap-3">
-            <div
-              className={
-                suspicious
-                  ? "metric-icon metric-icon-danger"
-                  : "metric-icon metric-icon-success"
-              }
-            >
-              {suspicious ? <ShieldAlert /> : <CheckCircle2 />}
-            </div>
-            <div>
-              <span className="text-sm text-muted-foreground">Risk status</span>
-              <div>
-                <RiskBadge
-                  risk={detection.risk_level}
-                  prediction={detection.prediction}
-                />
-              </div>
+          <div>
+            <span className="text-sm text-muted-foreground">Risk status</span>
+            <div className="mt-2">
+              <RiskBadge
+                risk={detection.risk_level}
+                prediction={detection.prediction}
+              />
             </div>
           </div>
           <div>
@@ -319,31 +299,12 @@ export function RequestDetailPage() {
               </CardContent>
             )}
           </Card>
-          <Card
-            className={
-              suspicious ? "border-destructive/30" : "border-success/30"
-            }
-          >
-            <CardHeader className="flex-row items-start gap-3">
-              <div
-                className={
-                  suspicious
-                    ? "metric-icon metric-icon-danger"
-                    : "metric-icon metric-icon-success"
-                }
-              >
-                {suspicious ? <CircleAlert /> : <CheckCircle2 />}
-              </div>
-              <div>
-                <CardTitle>
-                  {suspicious
-                    ? "Why this request was flagged"
-                    : "Why this request was considered benign"}
-                </CardTitle>
-                <CardDescription>
-                  Decision evidence recorded during analysis
-                </CardDescription>
-              </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Detection Analysis</CardTitle>
+              <CardDescription>
+                Model evaluation and pattern indicators
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-5">
               <div className="rounded-lg border bg-muted/40 p-4">
@@ -390,12 +351,12 @@ export function RequestDetailPage() {
               </dl>
 
               <div>
-                <h3 className="text-sm font-semibold">Observed evidence</h3>
+                <h3 className="text-sm font-semibold">Matched patterns</h3>
                 <div className="mt-3 space-y-3">
                   {evidence.length > 0 ? (
                     evidence.map(({ key, title, detail }) => (
-                      <div className="flex gap-3" key={key}>
-                        <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-destructive" />
+                      <div className="flex items-start gap-2.5" key={key}>
+                        <span className="mt-2 size-1.5 shrink-0 rounded-full bg-destructive" />
                         <div>
                           <p className="text-sm font-medium">{title}</p>
                           <p className="mt-1 text-sm leading-5 text-muted-foreground">
@@ -416,7 +377,7 @@ export function RequestDetailPage() {
               {detection.explanation && (
                 <div className="border-t pt-4">
                   <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    Model note
+                    Analysis note
                   </p>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">
                     {detection.explanation}

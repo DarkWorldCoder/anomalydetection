@@ -50,20 +50,20 @@ const chartConfig = {
   suspicious_requests: { label: "Suspicious", color: "var(--destructive)" },
 };
 
-function StatCard({ title, value, icon: Icon, tone = "primary" }) {
+function StatCard({ title, value, icon: Icon }) {
   return (
     <Card>
-      <CardContent className="flex items-center gap-4 p-5">
-        <div className={`metric-icon metric-icon-${tone}`}>
-          <Icon />
-        </div>
+      <CardContent className="flex items-center justify-between p-5">
         <div className="flex min-w-0 flex-col gap-1">
-          <span className="text-sm text-muted-foreground">{title}</span>
-          <strong className="text-2xl tracking-tight">
+          <span className="text-sm font-medium text-muted-foreground">{title}</span>
+          <strong className="text-2xl font-semibold tracking-tight">
             {typeof value === "string"
               ? value
               : Number(value || 0).toLocaleString()}
           </strong>
+        </div>
+        <div className="flex size-10 shrink-0 items-center justify-center rounded-lg border bg-muted/50 text-muted-foreground">
+          <Icon className="size-5" />
         </div>
       </CardContent>
     </Card>
@@ -110,19 +110,16 @@ export function DashboardPage() {
           title="Suspicious Requests"
           value={stats.suspicious_requests}
           icon={AlertTriangleIcon}
-          tone="danger"
         />
         <StatCard
           title="Benign Requests"
           value={benign}
           icon={CheckCircle2Icon}
-          tone="success"
         />
         <StatCard
           title="Anomaly Rate"
           value={`${stats.anomaly_rate || 0}%`}
           icon={ActivityIcon}
-          tone="info"
         />
       </section>
       <section className="grid gap-4 xl:grid-cols-[2fr_0.8fr_1fr]">

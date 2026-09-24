@@ -40,7 +40,7 @@ export function ModelPage() {
         <CardContent className="p-5">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground">
-              Active scoring model
+              Scoring model
             </p>
             <h2 className="mt-1 text-xl font-semibold tracking-tight">
               {model.name}

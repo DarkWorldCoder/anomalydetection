@@ -13,7 +13,6 @@ async def model_info(_: User = Depends(get_current_user)):
     config, model = load_artifacts()
     data = {
         "name": config["model_name"],
-        "dataset": config["dataset_name"],
         "status": "loaded",
         "feature_count": len(config["feature_names"]),
         "features": config["feature_names"],

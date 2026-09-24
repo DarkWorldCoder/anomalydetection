@@ -57,8 +57,8 @@ export function SettingsPage() {
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center gap-4">
-            <div className="metric-icon metric-icon-primary">
-              <UserRound />
+            <div className="flex size-10 items-center justify-center rounded-full border bg-muted/50 text-muted-foreground">
+              <UserRound className="size-5" />
             </div>
             <div>
               <strong>{user?.full_name}</strong>

@@ -152,30 +152,6 @@ body {
   .page-stack {
     @apply flex flex-col gap-5;
   }
-  .metric-icon {
-    @apply flex size-12 shrink-0 items-center justify-center rounded-xl;
-  }
-  .metric-icon svg {
-    @apply size-6;
-  }
-  .metric-icon-primary {
-    @apply bg-primary/10 text-primary;
-  }
-  .metric-icon-danger {
-    @apply bg-destructive/10 text-destructive;
-  }
-  .metric-icon-success {
-    @apply bg-success/10 text-success;
-  }
-  .metric-icon-info {
-    @apply bg-cyan-500/10 text-cyan-600;
-  }
-  .model-orb {
-    @apply flex size-16 shrink-0 items-center justify-center rounded-full border-8 border-success/10 bg-success/15 text-success;
-  }
-  .model-orb svg {
-    @apply size-7;
-  }
   .model-metric {
     @apply border-b p-5 last:border-b-0;
   }
